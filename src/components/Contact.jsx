@@ -75,14 +75,14 @@ const Contact = () => {
       return
     }
 
-    if (!captchaToken) {
-      toast("Hold up! Gotta make sure you're not a spam bot, checkmark the CAPTCHA! 🧠🤖", {
-        icon: "🛡️",
-        duration: 3500,
-        position: "bottom-right",
-      })
-      return
-    }
+    // if (!captchaToken) {
+    //   toast("Hold up! Gotta make sure you're not a spam bot, checkmark the CAPTCHA! 🧠🤖", {
+    //     icon: "🛡️",
+    //     duration: 3500,
+    //     position: "bottom-right",
+    //   })
+    //   return
+    // }
 
     setLoading(true)
 
@@ -219,7 +219,7 @@ const Contact = () => {
               />
             </div>
           </div> */}
-          <span className="text-xs text-gray-400 text-center -mt-4">Protected by reCAPTCHA Enterprise. ⚔️</span>
+          {/* <span className="text-xs text-gray-400 text-center -mt-4">Protected by reCAPTCHA Enterprise. ⚔️</span> */}
 
           <button
             type="submit"
