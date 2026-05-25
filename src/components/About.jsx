@@ -24,7 +24,7 @@ const ServiceCard = ({ index, title, icon }) => (
           transition={{ duration: 0.8, ease: "easeInOut" }}
         />
 
-        <h3 className="text-white text-[20px] font-bold text-center">{title}</h3>
+        <h3 className="text-white-100 text-[20px] font-bold text-center">{title}</h3>
 
         <motion.div
           className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0"

@@ -39,7 +39,7 @@ const Navbar = () => {
   };
 
   const barCommonStyle = {
-    background: 'white',
+    background: "white",
     display: 'block',
     height: '2px',
     width: '18px',
@@ -86,17 +86,16 @@ const Navbar = () => {
         >
           <img src={logo} alt='logo' className='w-9 h-9 object-contain' />
           <motion.p 
-            className='text-white text-[18px] font-bold cursor-pointer flex items-center'
+            className='text-white-100 text-[18px] font-bold cursor-pointer flex items-center'
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
             <span 
-              className='block' 
+              className='block text-[20px] xs:text-[26px]' 
               style={{
                 fontFamily: "'Gill Sans', cursive",
-                fontSize: "26px",
-                background: "linear-gradient(90deg, #915EFF, #00BFFF)",
+                background: "linear-gradient(90deg, #2e5793, #35b5a9)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -108,7 +107,7 @@ const Navbar = () => {
           </motion.p>
         </Link>
 
-        <ul className='list-none hidden sm:flex flex-row gap-10'>
+        <ul className='list-none hidden sm:flex flex-row items-center gap-10'>
           {navLinks.map((nav) => (
             <motion.li
               key={nav.id}
@@ -119,8 +118,8 @@ const Navbar = () => {
               <a
                 href={`#${nav.id}`}
                 className={`${
-                  active === nav.title ? "text-white" : "text-secondary"
-                } hover:text-white text-[18px] font-medium cursor-pointer transition-colors duration-300`}
+                  active === nav.title ? "text-white-100 font-semibold" : "text-secondary"
+                } hover:text-white-100 text-[18px] font-medium cursor-pointer transition-colors duration-300`}
                 onClick={() => setActive(nav.title)}
               >
                 {nav.title}
@@ -129,7 +128,8 @@ const Navbar = () => {
           ))}
         </ul>
 
-        <div className='sm:hidden flex flex-1 justify-end items-center'>
+        <div className='sm:hidden flex flex-1 justify-end items-center gap-4'>
+
           {/* Menu Icon Toggle */}
           <div style={menuIconStyle} onClick={() => setToggle(!toggle)}>
             <span style={topBarStyle}></span>
@@ -141,7 +141,7 @@ const Navbar = () => {
           <motion.div
             className={`${
               !toggle ? "hidden" : "flex"
-            } p-6 black-gradient absolute top-20 right-0 mx-4 my-2 min-w-[140px] z-10 rounded-xl`}
+            } p-6 bg-tertiary shadow-[0_10px_30px_rgba(0,0,0,0.3)] border border-white/5 absolute top-20 right-0 mx-4 my-2 min-w-[140px] z-10 rounded-xl`}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: toggle ? 1 : 0, scale: toggle ? 1 : 0.95 }}
             transition={{ duration: 0.2 }}
@@ -154,7 +154,7 @@ const Navbar = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: nav.id * 0.1 }}
                   className={`font-poppins font-medium cursor-pointer text-[16px] ${
-                    active === nav.title ? "text-white" : "text-secondary"
+                    active === nav.title ? "text-white-100 font-semibold" : "text-secondary"
                   }`}
                   onClick={() => {
                     setToggle(!toggle);

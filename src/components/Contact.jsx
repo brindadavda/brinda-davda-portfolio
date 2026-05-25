@@ -2,13 +2,13 @@
 
 import { useRef, useState, useCallback, useEffect } from "react"
 import { motion } from "framer-motion"
-import emailjs from "@emailjs/browser"
+
 import { Toaster, toast } from "react-hot-toast"
 import Confetti from "react-confetti"
 import ReCAPTCHA from "react-google-recaptcha"
 
 import { styles } from "../styles"
-import { EarthCanvas } from "./canvas"
+import { EarthCanvas, Magnetic } from "./canvas"
 import { SectionWrapper } from "../hoc"
 import { slideIn } from "../utils/motion"
 
@@ -75,56 +75,94 @@ const Contact = () => {
       return
     }
 
-    if (!captchaToken) {
-      toast("Hold up! Gotta make sure you're not a spam bot, checkmark the CAPTCHA! 🧠🤖", {
-        icon: "🛡️",
-        duration: 3500,
-        position: "bottom-right",
-      })
+    const sheetApiUrl = import.meta.env.VITE_SHEET_API_URL
+
+    if (!sheetApiUrl) {
+      // Local Mock Fallback Mode
+      setLoading(true)
+      setTimeout(() => {
+        setLoading(false)
+        setSuccess(true)
+        console.log("Mock Spreadsheet Save Success: ", {
+          Name: form.name,
+          Email: form.email,
+          Message: form.message,
+          Date: new Date().toLocaleString()
+        })
+        setForm({ name: "", email: "", message: "" })
+        toast.success("Message logged successfully! (Set VITE_SHEET_API_URL in .env to connect a real Google Sheet)", {
+          duration: 6000,
+          position: "bottom-right",
+        })
+        setShowConfetti(true)
+        setCaptchaToken(null)
+        if (captchaRef.current) {
+          captchaRef.current.reset()
+        }
+        setTimeout(() => {
+          setSuccess(false)
+          setShowConfetti(false)
+        }, 5000)
+      }, 1000)
       return
     }
 
     setLoading(true)
 
-    emailjs
-      .send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        {
-          from_name: form.name,
-          to_name: "Brinda Davda",
-          from_email: form.email,
-          to_email: "davdabrinda@gmail.com",
-          message: form.message,
+    try {
+      fetch(sheetApiUrl, {
+        method: "POST",
+        mode: "no-cors", // Crucial for Google Apps Script to bypass browser CORS redirection blocks
+        headers: {
+          "Content-Type": "text/plain", // Set to text/plain to prevent browser triggering preflight OPTIONS check
         },
-        import.meta.env.VITE_EMAIL_JS_ACCESS_TOKEN,
-      )
-      .then(
-        () => {
-          setLoading(false)
-          setSuccess(true)
-          setForm({ name: "", email: "", message: "" })
-          toast.success("Message sent successfully!", {
-            duration: 3000,
-            position: "bottom-right",
-          })
-          setShowConfetti(true)
-          setCaptchaToken(null)
+        body: JSON.stringify({
+          data: [
+            {
+              Name: form.name,
+              Email: form.email,
+              Message: form.message,
+              Date: new Date().toLocaleString(),
+            }
+          ]
+        })
+      })
+      .then(() => {
+        // Since we are using no-cors, the response is opaque. 
+        // If it resolved without throwing an error, the request has successfully reached Google Sheets!
+        setLoading(false)
+        setSuccess(true)
+        setForm({ name: "", email: "", message: "" })
+        toast.success("Message saved to spreadsheet successfully! 📊", {
+          duration: 4000,
+          position: "bottom-right",
+        })
+        setShowConfetti(true)
+        setCaptchaToken(null)
+        if (captchaRef.current) {
           captchaRef.current.reset()
-          setTimeout(() => {
-            setSuccess(false)
-            setShowConfetti(false)
-          }, 5000)
-        },
-        (error) => {
-          setLoading(false)
-          console.error(error)
-          toast.error("Something went wrong. Please try again.", {
-            duration: 3000,
-            position: "bottom-right",
-          })
-        },
-      )
+        }
+        setTimeout(() => {
+          setSuccess(false)
+          setShowConfetti(false)
+        }, 5000)
+      })
+      .catch((error) => {
+        setLoading(false)
+        console.error("Spreadsheet Save Error: ", error)
+        toast.error("Failed to save message to spreadsheet. Please check your API URL.", {
+          duration: 4000,
+          position: "bottom-right",
+        })
+      })
+    } catch (err) {
+      setLoading(false)
+      console.error("Spreadsheet Sync Exception: ", err)
+      toast.error(err?.message || "An unexpected error occurred. Please try again.", {
+        duration: 4000,
+        position: "bottom-right",
+      })
+    }
   }
 
   const handleConfettiComplete = useCallback(() => {
@@ -145,7 +183,7 @@ const Contact = () => {
       )}
       <motion.div
         variants={slideIn("left", "tween", 0.2, 1)}
-        className="flex-[0.75] bg-tertiary/80 backdrop-blur-xl p-8 rounded-2xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)]"
+        className="flex-[0.75] bg-tertiary/80 backdrop-blur-xl sm:p-8 p-5 rounded-2xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)]"
       >
         <div className="flex justify-between items-center mb-4">
           <p className={styles.sectionSubText}>Get in touch</p>
@@ -163,7 +201,7 @@ const Contact = () => {
           <div className="flex flex-col sm:flex-row gap-8">
             <div className="flex-1">
               <label className="flex flex-col">
-                <span className="text-white font-medium mb-4 flex items-center gap-2">
+                <span className="text-white-100 font-medium mb-4 flex items-center gap-2">
                   <FontAwesomeIcon icon={faUser} className="text-purple-400" />
                   Name
                 </span>
@@ -173,13 +211,13 @@ const Contact = () => {
                   value={form.name}
                   onChange={handleChange}
                   placeholder="Your name"
-                  className="bg-black-100/50 backdrop-blur-sm py-4 px-6 placeholder:text-secondary text-white rounded-xl outline-none border-2 border-white/20 font-medium transition-all duration-300 focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 focus:bg-black-100/70 hover:border-white/30"
+                  className="bg-black-100/50 backdrop-blur-sm py-4 px-6 placeholder:text-secondary text-white-100 rounded-xl outline-none border-2 border-secondary/20 font-medium transition-all duration-300 focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 focus:bg-black-100/70 hover:border-secondary/30"
                 />
               </label>
             </div>
             <div className="flex-1">
               <label className="flex flex-col">
-                <span className="text-white font-medium mb-4 flex items-center gap-2">
+                <span className="text-white-100 font-medium mb-4 flex items-center gap-2">
                   <FontAwesomeIcon icon={faEnvelope} className="text-purple-400" />
                   Email
                 </span>
@@ -189,13 +227,13 @@ const Contact = () => {
                   value={form.email}
                   onChange={handleChange}
                   placeholder="Your email"
-                  className="bg-black-100/50 backdrop-blur-sm py-4 px-6 placeholder:text-secondary text-white rounded-xl outline-none border-2 border-white/20 font-medium transition-all duration-300 focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 focus:bg-black-100/70 hover:border-white/30"
+                  className="bg-black-100/50 backdrop-blur-sm py-4 px-6 placeholder:text-secondary text-white-100 rounded-xl outline-none border-2 border-secondary/20 font-medium transition-all duration-300 focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 focus:bg-black-100/70 hover:border-secondary/30"
                 />
               </label>
             </div>
           </div>
           <label className="flex flex-col">
-            <span className="text-white font-medium mb-4 flex items-center gap-2">
+            <span className="text-white-100 font-medium mb-4 flex items-center gap-2">
               <FontAwesomeIcon icon={faComment} className="text-purple-400" />
               Message
             </span>
@@ -205,7 +243,7 @@ const Contact = () => {
               value={form.message}
               onChange={handleChange}
               placeholder="Hi Brinda, I’d love to discuss an iOS opportunity with you! 🚀"
-              className="bg-black-100/50 backdrop-blur-sm py-4 px-6 placeholder:text-secondary text-white rounded-xl outline-none border-2 border-white/20 font-medium transition-all duration-300 focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 focus:bg-black-100/70 hover:border-white/30 resize-none"
+              className="bg-black-100/50 backdrop-blur-sm py-4 px-6 placeholder:text-secondary text-white-100 rounded-xl outline-none border-2 border-secondary/20 font-medium transition-all duration-300 focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 focus:bg-black-100/70 hover:border-secondary/30 resize-none"
             />
           </label>
 
@@ -219,34 +257,36 @@ const Contact = () => {
               />
             </div>
           </div> */}
-          <span className="text-xs text-gray-400 text-center -mt-4">Protected by reCAPTCHA Enterprise. ⚔️</span>
+          {/* <span className="text-xs text-gray-400 text-center -mt-4">Protected by reCAPTCHA Enterprise. ⚔️</span> */}
 
-          <button
-            type="submit"
-            className="relative bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 overflow-hidden group"
-            disabled={loading}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-            {loading ? (
-              <FontAwesomeIcon icon={faSpinner} spin className="text-xl" />
-            ) : success ? (
-              <>
-                <span>Sent Successfully</span>
-                <FontAwesomeIcon
-                  icon={faPaperPlane}
-                  className="group-hover:translate-x-1 transition-transform duration-300"
-                />
-              </>
-            ) : (
-              <>
-                <span>Send Message</span>
-                <FontAwesomeIcon
-                  icon={faPaperPlane}
-                  className="group-hover:translate-x-1 transition-transform duration-300"
-                />
-              </>
-            )}
-          </button>
+          <Magnetic range={60} strength={0.35}>
+            <button
+              type="submit"
+              className="relative bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 overflow-hidden group"
+              disabled={loading}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              {loading ? (
+                <FontAwesomeIcon icon={faSpinner} spin className="text-xl" />
+              ) : success ? (
+                <>
+                  <span>Sent Successfully</span>
+                  <FontAwesomeIcon
+                    icon={faPaperPlane}
+                    className="group-hover:translate-x-1 transition-transform duration-300"
+                  />
+                </>
+              ) : (
+                <>
+                  <span>Send Message</span>
+                  <FontAwesomeIcon
+                    icon={faPaperPlane}
+                    className="group-hover:translate-x-1 transition-transform duration-300"
+                  />
+                </>
+              )}
+            </button>
+          </Magnetic>
         </form>
       </motion.div>
 

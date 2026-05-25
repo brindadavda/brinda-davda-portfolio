@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Autoplay, Pagination } from "swiper/modules";
+import { Tilt } from "react-tilt";
 import { styles } from "../styles";
 import { extracurricular } from "../constants";
 import { SectionWrapper } from "../hoc";
@@ -12,30 +13,39 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 
 const CertificationCard = ({ title, icon, type, date, points }) => (
-  <div className="certification-card bg-tertiary p-6 rounded-2xl w-full h-full flex flex-col justify-between no-select">
-    <div>
-      <div className="relative w-full h-[50px] mb-4">
-        <img
-          src={icon}
-          alt={title}
-          className="w-auto h-full object-contain no-select"
-        />
+  <Tilt
+    options={{
+      max: 15,
+      scale: 1.03,
+      speed: 450,
+    }}
+    className="w-full h-full"
+  >
+    <div className="certification-card bg-tertiary p-6 rounded-2xl w-full h-full flex flex-col justify-between no-select shadow-[0_10px_30px_rgba(0,0,0,0.3)] border border-white/5">
+      <div>
+        <div className="relative w-full h-[50px] mb-4">
+          <img
+            src={icon}
+            alt={title}
+            className="w-auto h-full object-contain no-select"
+          />
+        </div>
+        <h3 className="text-white-100 font-bold text-[20px] mb-2 no-select">{title}</h3>
+        <p className="text-secondary text-[12px] mb-1 no-select">{type}</p>
+        <p className="text-secondary text-[12px] mb-3 no-select">{date}</p>
+        <ul className="list-disc ml-5 space-y-1">
+          {points.slice(0, 2).map((point, index) => (
+            <li
+              key={`certification-point-${index}`}
+              className="text-white-100 text-[12px] pl-1 tracking-wider no-select"
+            >
+              {point}
+            </li>
+          ))}
+        </ul>
       </div>
-      <h3 className="text-white font-bold text-[20px] mb-2 no-select">{title}</h3>
-      <p className="text-secondary text-[12px] mb-1 no-select">{type}</p>
-      <p className="text-secondary text-[12px] mb-3 no-select">{date}</p>
-      <ul className="list-disc ml-5 space-y-1">
-        {points.slice(0, 2).map((point, index) => (
-          <li
-            key={`certification-point-${index}`}
-            className="text-white-100 text-[12px] pl-1 tracking-wider no-select"
-          >
-            {point}
-          </li>
-        ))}
-      </ul>
     </div>
-  </div>
+  </Tilt>
 );
 
 const Extracurricular = () => {
@@ -152,13 +162,13 @@ const Extracurricular = () => {
           width: 100%;
         }
         .swiper-pagination-bullet {
-          background: #915eff;
+          background: #35b5a9;
         }
         .certification-card {
-          background-color: rgba(30, 30, 60, 0.8);
+          background-color: rgba(29, 45, 117, 0.85);
           backdrop-filter: blur(10px);
-          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-          border: 1px solid rgba(255, 255, 255, 0.18);
+          box-shadow: 0 8px 32px 0 rgba(13, 17, 59, 0.37);
+          border: 1px solid rgba(255, 255, 255, 0.1);
           transition: all 0.3s ease-in-out;
         }
         @media (max-width: 768px) {

@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Tilt } from "react-tilt";
 
 import { styles } from "../styles";
 import { SectionWrapper } from "../hoc";
@@ -16,30 +17,39 @@ const FeedbackCard = ({
 }) => (
   <motion.div
     variants={fadeIn("", "spring", index * 0.5, 0.75)}
-    className='bg-black-200 p-10 rounded-3xl xs:w-[320px] w-full'
+    className='xs:w-[320px] w-full'
   >
-    <p className='text-white font-black text-[48px]'>"</p>
+    <Tilt
+      options={{
+        max: 15,
+        scale: 1.03,
+        speed: 450,
+      }}
+      className='bg-black-200 p-10 rounded-3xl w-full h-full shadow-[0_10px_30px_rgba(0,0,0,0.3)] border border-white/5'
+    >
+      <p className='text-white-100 font-black text-[48px]'>"</p>
 
-    <div className='mt-1'>
-      <p className='text-white tracking-wider text-[18px]'>{testimonial}</p>
+      <div className='mt-1'>
+        <p className='text-white-100 tracking-wider text-[18px]'>{testimonial}</p>
 
-      <div className='mt-7 flex justify-between items-center gap-1'>
-        <div className='flex-1 flex flex-col'>
-          <p className='text-white font-medium text-[16px]'>
-            <span className='blue-text-gradient'>@</span> {name}
-          </p>
-          <p className='mt-1 text-secondary text-[12px]'>
-            {designation} of {company}
-          </p>
+        <div className='mt-7 flex justify-between items-center gap-1'>
+          <div className='flex-1 flex flex-col'>
+            <p className='text-white-100 font-medium text-[16px]'>
+              <span className='blue-text-gradient'>@</span> {name}
+            </p>
+            <p className='mt-1 text-secondary text-[12px]'>
+              {designation} of {company}
+            </p>
+          </div>
+
+          <img
+            src={image}
+            alt={`feedback_by-${name}`}
+            className='w-10 h-10 rounded-full object-cover'
+          />
         </div>
-
-        <img
-          src={image}
-          alt={`feedback_by-${name}`}
-          className='w-10 h-10 rounded-full object-cover'
-        />
       </div>
-    </div>
+    </Tilt>
   </motion.div>
 );
 

@@ -22,16 +22,21 @@ export const fadeIn = (direction, type, delay, duration) => {
       x: direction === "left" ? 100 : direction === "right" ? -100 : 0,
       y: direction === "up" ? 100 : direction === "down" ? -100 : 0,
       opacity: 0,
+      rotateX: type === "spring" ? 15 : 0, // Premium 3D forward-tilt reveal
+      transformPerspective: 1000,
     },
     show: {
       x: 0,
       y: 0,
       opacity: 1,
+      rotateX: 0,
       transition: {
         type: type,
         delay: delay,
         duration: duration,
         ease: "easeOut",
+        stiffness: type === "spring" ? 100 : undefined,
+        damping: type === "spring" ? 12 : undefined,
       },
     },
   };

@@ -32,7 +32,7 @@ const TypewriterText = ({ texts }) => {
   }, [currentIndex, isTyping, texts, displayText]);
 
   return (
-    <span className="inline-block text-[#915EFF] font-bold">
+    <span className="inline-block text-[#35b5a9] font-bold">
       {displayText.split('').map((char, index) => (
         <motion.span
           key={index}
@@ -98,22 +98,19 @@ const Hero = () => {
       `}</style>
       <div className={`absolute inset-0 top-[120px] max-w-7xl mx-auto ${styles.paddingX} flex flex-row items-start gap-5`}>
         <div className="flex flex-col justify-center items-center mt-5">
-          <div className="w-5 h-5 rounded-full bg-[#915EFF]" />
+          <div className="w-5 h-5 rounded-full bg-[#35b5a9]" />
           <div className="w-1 sm:h-80 h-40 violet-gradient" />
         </div>
 
         <div>
-          <h1 className={`${styles.heroHeadText} text-white`}>
-            Hi, I'm <span className="text-[#915EFF]">Brinda</span> <WavingHand />
+          <h1 className={`${styles.heroHeadText}`}>
+            Hi, I'm <span className="text-[#35b5a9]">Brinda</span> <WavingHand />
           </h1>
           <p className={`${styles.heroSubText} mt-2 text-white-100`}>
             I'm a <TypewriterText texts={typedItems} />
-            <br />
-            <b>Welcome to my portfolio, please view on desktop for an interactive experience!</b>
           </p>
         </div>
       </div>
-      <br /><br /><br />
 
       <ComputersCanvas />
 

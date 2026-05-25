@@ -28,9 +28,9 @@ const Computers = ({ isMobile }) => {
       <pointLight intensity={1} />
       <primitive
         object={computer.scene}
-        scale={isMobile ? 0.75 : 0.75}
-        position={isMobile ? [0, -3, 0] : [0, -3.25, -1.5]}
-        rotation={isMobile ? [0, 0, 0] : [-0.01, -0.2, -0.1]}
+        scale={isMobile ? 0.63 : 0.75}
+        position={isMobile ? [0, -3.2, -0.2] : [0, -3.25, -1.5]}
+        rotation={isMobile ? [-0.01, -0.2, -0.1] : [-0.01, -0.2, -0.1]}
       />
     </mesh>
   );
@@ -41,7 +41,7 @@ const ComputersCanvas = () => {
 
   useEffect(() => {
     // Add a listener for changes to the screen size
-    const mediaQuery = window.matchMedia("(max-width: 500px)");
+    const mediaQuery = window.matchMedia("(max-width: 1024px)");
 
     // Set the initial value of the `isMobile` state variable
     setIsMobile(mediaQuery.matches);
@@ -61,30 +61,32 @@ const ComputersCanvas = () => {
   }, []);
 
   return (
-    <Canvas
-      frameloop='always'
-      shadows
-      dpr={[1, 2]}
-      camera={isMobile ? 
-        { position: [0, 0, 20], fov: 50 } : 
-        { position: [20, 3, 5], fov: 25 }
-      }
-      gl={{ preserveDrawingBuffer: true }}
-    >
-      <Suspense fallback={<CanvasLoader />}>
-        {!isMobile && (
-          <OrbitControls
-            enableZoom={false}
-            maxPolarAngle={Math.PI / 2}
-            minPolarAngle={Math.PI / 2}
-            autoRotate={true}
-          />
-        )}
-        <Computers isMobile={isMobile} />
-      </Suspense>
+    <div className="w-full h-full absolute inset-0 pointer-events-none lg:pointer-events-auto">
+      <Canvas
+        frameloop='always'
+        shadows
+        dpr={[1, 2]}
+        camera={isMobile ? 
+          { position: [0, 0, 20], fov: 50 } : 
+          { position: [20, 3, 5], fov: 25 }
+        }
+        gl={{ preserveDrawingBuffer: true }}
+      >
+        <Suspense fallback={<CanvasLoader />}>
+          {!isMobile && (
+            <OrbitControls
+              enableZoom={false}
+              maxPolarAngle={Math.PI / 2}
+              minPolarAngle={Math.PI / 2}
+              autoRotate={true}
+            />
+          )}
+          <Computers isMobile={isMobile} />
+        </Suspense>
 
-      <Preload all />
-    </Canvas>
+        <Preload all />
+      </Canvas>
+    </div>
   );
 };
 

@@ -4,6 +4,7 @@ import { styles } from "../styles";
 import { experiences } from "../constants";
 import { SectionWrapper } from "../hoc";
 import { textVariant, fadeIn } from "../utils/motion";
+import { Tilt } from "react-tilt";
 
 const ExperienceCard = React.memo(({ experience, isActive, onClick, index }) => {
   return (
@@ -30,7 +31,7 @@ const ExperienceCard = React.memo(({ experience, isActive, onClick, index }) => 
         />
       </div>
       <div>
-        <h3 className="text-white text-[18px] font-bold">{experience.title}</h3>
+        <h3 className="text-white-100 text-[18px] font-bold">{experience.title}</h3>
         <p className="text-secondary text-[14px]">{experience.company_name}</p>
       </div>
     </motion.div>
@@ -39,28 +40,37 @@ const ExperienceCard = React.memo(({ experience, isActive, onClick, index }) => 
 
 const ExperienceDetails = React.memo(({ experience }) => {
   return (
-    <motion.div
-      key={experience.company_name}
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -20 }}
-      transition={{ duration: 0.2, ease: "easeInOut" }}
-      className="bg-tertiary p-8 rounded-lg"
+    <Tilt
+      options={{
+        max: 12,
+        scale: 1.01,
+        speed: 400,
+      }}
+      className="w-full h-full"
     >
-      <h3 className="text-white text-[24px] font-bold mb-4">{experience.title}</h3>
-      <p className="text-secondary text-[16px] mb-4">{experience.company_name}</p>
-      <p className="text-white-100 text-[14px] mb-4">{experience.date}</p>
-      <ul className="list-disc ml-5 space-y-2">
-        {experience.points.map((point, index) => (
-          <li
-            key={`experience-point-${index}`}
-            className="text-white-100 text-[14px] pl-1 tracking-wider"
-          >
-            {point}
-          </li>
-        ))}
-      </ul>
-    </motion.div>
+      <motion.div
+        key={experience.company_name}
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -20 }}
+        transition={{ duration: 0.2, ease: "easeInOut" }}
+        className="bg-tertiary p-8 rounded-lg h-full shadow-[0_10px_30px_rgba(0,0,0,0.3)] border border-white/5"
+      >
+        <h3 className="text-white-100 text-[24px] font-bold mb-4">{experience.title}</h3>
+        <p className="text-secondary text-[16px] mb-4">{experience.company_name}</p>
+        <p className="text-white-100 text-[14px] mb-4">{experience.date}</p>
+        <ul className="list-disc ml-5 space-y-2">
+          {experience.points.map((point, index) => (
+            <li
+              key={`experience-point-${index}`}
+              className="text-white-100 text-[14px] pl-1 tracking-wider"
+            >
+              {point}
+            </li>
+          ))}
+        </ul>
+      </motion.div>
+    </Tilt>
   );
 });
 
@@ -113,8 +123,31 @@ const Experience = () => {
         </h2>
       </motion.div>
 
-      <div className="mt-20 flex flex-col md:flex-row gap-10">
-        <div className="md:w-1/3">
+      <div className="mt-20 flex flex-col lg:flex-row gap-10">
+        {/* Mobile & Tablet Horizontal Tabs */}
+        <div className="flex lg:hidden flex-row overflow-x-auto gap-4 border-b border-white/10 pb-2 mb-4 no-scrollbar">
+          {experiences.map((experience, index) => (
+            <button
+              key={`experience-tab-${index}`}
+              onClick={() => handleExperienceClick(index)}
+              className={`flex-1 min-w-[120px] text-center py-2 px-2 font-bold text-[15px] transition-all duration-300 relative ${
+                index === activeExperience ? "text-white-100" : "text-secondary"
+              }`}
+            >
+              {experience.company_name.split(" | ")[0]}
+              {index === activeExperience && (
+                <motion.div
+                  layoutId="activeTabIndicator"
+                  className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#35b5a9] rounded-full"
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                />
+              )}
+            </button>
+          ))}
+        </div>
+
+        {/* Desktop Vertical List */}
+        <div className="hidden lg:block lg:w-1/3">
           <div className="flex flex-col space-y-4">
             {experiences.map((experience, index) => (
               <ExperienceCard
@@ -127,7 +160,9 @@ const Experience = () => {
             ))}
           </div>
         </div>
-        <div className="md:w-2/3">
+
+        {/* Details Panel */}
+        <div className="w-full lg:w-2/3">
           <AnimatePresence mode="wait" initial={false}>
             {!isPending && (
               <ExperienceDetails key={currentExperience.company_name} experience={currentExperience} />

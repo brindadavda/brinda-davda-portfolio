@@ -7,11 +7,20 @@ import * as random from "maath/random/dist/maath-random.esm"
 
 const Stars = (props) => {
   const ref = useRef()
-  const [sphere] = useState(() => random.inSphere(new Float32Array(2001), { radius: 1.2 }))
+  const [sphere] = useState(() => random.inSphere(new Float32Array(3000), { radius: 1.2 })) // Increased star density for rich volumetric look
 
   useFrame((state, delta) => {
-    ref.current.rotation.x -= delta / 15
-    ref.current.rotation.y -= delta / 20
+    // Slow continuous background spin
+    ref.current.rotation.x -= delta / 25
+    ref.current.rotation.y -= delta / 30
+
+    // Dynamic 3D parallax tilt responsive to mouse cursor location
+    const targetX = state.pointer.y * 0.2
+    const targetY = state.pointer.x * 0.2
+
+    // Smooth spring-like lerp to avoid abrupt jumps
+    ref.current.rotation.x += (targetX - ref.current.rotation.x) * 0.05
+    ref.current.rotation.y += (targetY - ref.current.rotation.y) * 0.05
   })
 
   return (
@@ -19,7 +28,7 @@ const Stars = (props) => {
       <Points ref={ref} positions={sphere} stride={3} frustumCulled {...props}>
         <PointMaterial
           transparent
-          color="#915EFF"
+          color="#234C6A"
           size={0.003}
           sizeAttenuation={true}
           depthWrite={false}
