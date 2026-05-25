@@ -92,10 +92,9 @@ const Navbar = () => {
             transition={{ duration: 0.5 }}
           >
             <span 
-              className='block' 
+              className='block text-[20px] xs:text-[26px]' 
               style={{
                 fontFamily: "'Gill Sans', cursive",
-                fontSize: "26px",
                 background: "linear-gradient(90deg, #915EFF, #00BFFF)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",

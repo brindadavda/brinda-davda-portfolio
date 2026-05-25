@@ -58,8 +58,14 @@ const Tech = () => {
   }, [isInView, mainControls]);
 
   const calculateRows = (width, techArray) => {
+    if (width < 380) {
+      return [techArray.slice(0, 2), techArray.slice(2, 4), techArray.slice(4)].filter((row) => row.length > 0);
+    }
     if (width < 500) {
-      return [techArray.slice(0, 3), techArray.slice(3)];
+      return [techArray.slice(0, 3), techArray.slice(3)].filter((row) => row.length > 0);
+    }
+    if (width < 1024) {
+      return [techArray.slice(0, 3), techArray.slice(3)].filter((row) => row.length > 0);
     }
 
     const rowSize = Math.min(6, techArray.length);

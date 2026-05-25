@@ -108,12 +108,9 @@ const Hero = () => {
           </h1>
           <p className={`${styles.heroSubText} mt-2 text-white-100`}>
             I'm a <TypewriterText texts={typedItems} />
-            <br />
-            <b>Welcome to my portfolio, please view on desktop for an interactive experience!</b>
           </p>
         </div>
       </div>
-      <br /><br /><br />
 
       <ComputersCanvas />
 
