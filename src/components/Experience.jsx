@@ -10,9 +10,9 @@ const ExperienceCard = React.memo(({ experience, isActive, onClick, index }) => 
   return (
     <motion.div
       variants={fadeIn("right", "spring", index * 0.1, 0.5)}
-      className={`flex items-center p-4 rounded-lg cursor-pointer transition-all duration-300 ${
-        isActive ? "bg-tertiary" : "bg-primary"
-      }`}
+      className={`cursor-pointer px-6 py-4 rounded-lg flex items-center gap-4 transition-all duration-300 ${
+        isActive ? "glass-card" : "bg-primary"
+      } border-l-4 ${isActive ? "border-[var(--accent-1)]" : "border-transparent"}`}
       onClick={onClick}
       onKeyDown={(e) => e.key === 'Enter' && onClick()}
       role="button"
@@ -54,7 +54,7 @@ const ExperienceDetails = React.memo(({ experience }) => {
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -20 }}
         transition={{ duration: 0.2, ease: "easeInOut" }}
-        className="bg-tertiary p-8 rounded-lg h-full shadow-[0_10px_30px_rgba(0,0,0,0.3)] border border-white/5"
+        className="glass-card p-8 rounded-lg h-full"
       >
         <h3 className="text-white-100 text-[24px] font-bold mb-4">{experience.title}</h3>
         <p className="text-secondary text-[16px] mb-4">{experience.company_name}</p>
@@ -138,7 +138,7 @@ const Experience = () => {
               {index === activeExperience && (
                 <motion.div
                   layoutId="activeTabIndicator"
-                  className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#35b5a9] rounded-full"
+                  className="absolute bottom-0 left-0 right-0 h-[3px] bg-[var(--accent-1)] rounded-full"
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
               )}

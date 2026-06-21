@@ -95,7 +95,7 @@ const Navbar = () => {
               className='block text-[20px] xs:text-[26px]' 
               style={{
                 fontFamily: "'Gill Sans', cursive",
-                background: "linear-gradient(90deg, #2e5793, #35b5a9)",
+                background: "linear-gradient(90deg, var(--accent-2), var(--accent-1))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",

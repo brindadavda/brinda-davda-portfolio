@@ -183,7 +183,7 @@ const Contact = () => {
       )}
       <motion.div
         variants={slideIn("left", "tween", 0.2, 1)}
-        className="flex-[0.75] bg-tertiary/80 backdrop-blur-xl sm:p-8 p-5 rounded-2xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)]"
+        className="flex-[0.75] glass-card sm:p-8 p-5 rounded-2xl"
       >
         <div className="flex justify-between items-center mb-4">
           <p className={styles.sectionSubText}>Get in touch</p>
@@ -211,7 +211,7 @@ const Contact = () => {
                   value={form.name}
                   onChange={handleChange}
                   placeholder="Your name"
-                  className="bg-black-100/50 backdrop-blur-sm py-4 px-6 placeholder:text-secondary text-white-100 rounded-xl outline-none border-2 border-secondary/20 font-medium transition-all duration-300 focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 focus:bg-black-100/70 hover:border-secondary/30"
+                  className="glass-input py-4 px-6 placeholder:text-secondary text-white-100 rounded-xl outline-none border-2 border-transparent font-medium transition-all duration-300 focus:ring-2 focus:ring-[var(--accent-1)] focus:border-[var(--accent-1)] hover:border-[var(--accent-1)]"
                 />
               </label>
             </div>
@@ -227,7 +227,7 @@ const Contact = () => {
                   value={form.email}
                   onChange={handleChange}
                   placeholder="Your email"
-                  className="bg-black-100/50 backdrop-blur-sm py-4 px-6 placeholder:text-secondary text-white-100 rounded-xl outline-none border-2 border-secondary/20 font-medium transition-all duration-300 focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 focus:bg-black-100/70 hover:border-secondary/30"
+                  className="glass-input py-4 px-6 placeholder:text-secondary text-white-100 rounded-xl outline-none border-2 border-transparent font-medium transition-all duration-300 focus:ring-2 focus:ring-[var(--accent-1)] focus:border-[var(--accent-1)] hover:border-[var(--accent-1)]"
                 />
               </label>
             </div>
@@ -243,7 +243,7 @@ const Contact = () => {
               value={form.message}
               onChange={handleChange}
               placeholder="Hi Brinda, I’d love to discuss an iOS opportunity with you! 🚀"
-              className="bg-black-100/50 backdrop-blur-sm py-4 px-6 placeholder:text-secondary text-white-100 rounded-xl outline-none border-2 border-secondary/20 font-medium transition-all duration-300 focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 focus:bg-black-100/70 hover:border-secondary/30 resize-none"
+              className="glass-input py-4 px-6 placeholder:text-secondary text-white-100 rounded-xl outline-none border-2 border-transparent font-medium transition-all duration-300 focus:ring-2 focus:ring-[var(--accent-1)] focus:border-[var(--accent-1)] hover:border-[var(--accent-1)] resize-none"
             />
           </label>
 

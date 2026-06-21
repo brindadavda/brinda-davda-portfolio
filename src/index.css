@@ -5,14 +5,70 @@
 @tailwind utilities;
 
 :root {
-  --primary-color: #0d113b;
-  --secondary-color: #7a9ccb;
-  --tertiary-color: #1d2d75;
-  --black-100-color: #141846;
-  --black-200-color: #090c2a;
-  --white-100-color: #e3f2f0;
-  color-scheme: dark;
+  /* Light Mode Defaults (Aurora Light) */
+  --primary-color: #F8FAFC;
+  --secondary-color: #64748B;
+  --tertiary-color: rgba(255, 255, 255, 0.6);
+  --black-100-color: rgba(241, 245, 249, 0.7);
+  --black-200-color: #E2E8F0;
+  --white-100-color: #0F172A;
+  --accent-1: #6366F1;
+  --accent-2: #A855F7;
+  color-scheme: light;
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark Mode Defaults (Aurora Dark) */
+    --primary-color: #0B0F19;
+    --secondary-color: #94A3B8;
+    --tertiary-color: rgba(30, 41, 59, 0.5);
+    --black-100-color: rgba(15, 23, 42, 0.6);
+    --black-200-color: #0B0F19;
+    --white-100-color: #F8FAFC;
+    --accent-1: #22D3EE;
+    --accent-2: #C084FC;
+    color-scheme: dark;
+  }
+}
+
+/* Glassmorphism Utilities */
+.glass-card {
+  background: var(--tertiary-color);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.glass-input {
+  background: var(--black-100-color);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Aurora Animation */
+@keyframes aurora {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.aurora-bg {
+  background: linear-gradient(-45deg, var(--primary-color), rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.15), var(--primary-color));
+  background-size: 400% 400%;
+  animation: aurora 15s ease infinite;
+}
+
+@media (prefers-color-scheme: dark) {
+  .aurora-bg {
+    background: linear-gradient(-45deg, var(--primary-color), rgba(34, 211, 238, 0.15), rgba(192, 132, 252, 0.15), var(--primary-color));
+    background-size: 400% 400%;
+    animation: aurora 15s ease infinite;
+  }
+}
+
 
 
 * {
@@ -45,12 +101,12 @@
 }
 
 .violet-gradient {
-  background: #35b5a9;
-  background: linear-gradient(-90deg, #35b5a9 0%, rgba(53, 181, 169, 0) 100%);
+  background: var(--accent-1);
+  background: linear-gradient(-90deg, var(--accent-1) 0%, transparent 100%);
   background: -webkit-linear-gradient(
     -90deg,
-    #35b5a9 0%,
-    rgba(53, 181, 169, 0) 100%
+    var(--accent-1) 0%,
+    transparent 100%
   );
 }
 

@@ -128,12 +128,12 @@ const Tech = () => {
         style={{
           fontFamily: "'Gill Sans', cursive",
           fontSize: "26px",
-          background: "linear-gradient(90deg, #2e5793, #35b5a9)",
+          background: "linear-gradient(90deg, var(--accent-2), var(--accent-1))",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
           backgroundClip: "text",
           textFillColor: "transparent",
-          filter: "drop-shadow(0 0 10px #35b5a9)",
+          filter: "drop-shadow(0 0 10px var(--accent-1))",
         }}
       >{`<${categoryName}>`}</motion.h2>
       <div className="honeycomb-grid">
@@ -166,12 +166,12 @@ const Tech = () => {
         style={{
           fontFamily: "'Gill Sans', cursive",
           fontSize: "26px",
-          background: "linear-gradient(90deg, #2e5793, #35b5a9)",
+          background: "linear-gradient(90deg, var(--accent-2), var(--accent-1))",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
           backgroundClip: "text",
           textFillColor: "transparent",
-          filter: "drop-shadow(0 0 10px #35b5a9)",
+          filter: "drop-shadow(0 0 10px var(--accent-1))",
         }}
       >{`</${categoryName}>`}</motion.h2>
     </motion.div>

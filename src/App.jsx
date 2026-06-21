@@ -8,8 +8,8 @@ import Feedbacks from './components/Feedbacks'
 function App() {
   return (
       <BrowserRouter>
-        <div className='relative z-0 bg-primary overflow-x-hidden'>
-          <div className="div bg-hero-pattern bg-cover bg-no-repeat bg-center">
+        <div className='relative z-0 bg-primary aurora-bg overflow-x-hidden transition-colors duration-500'>
+          <div className="div bg-cover bg-no-repeat bg-center">
             <Navbar />
             <Hero />
           </div>
