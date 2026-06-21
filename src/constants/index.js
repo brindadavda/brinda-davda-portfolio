@@ -300,6 +300,7 @@ const extracurricular = [
     points: [
       "Led a team in a national-level hackathon and reached finalist stage.",
     ],
+    certificate_link: "https://drive.google.com/file/d/12thH3t5GdIXNhPXq7y2IrkwYREEmtSDu/view?usp=drive_link",
   },
   {
     title: "Google Cloud Platform Bootcamp",
@@ -310,6 +311,7 @@ const extracurricular = [
     points: [
       "Hands-on cloud fundamentals and deployment concepts.",
     ],
+    certificate_link: "https://drive.google.com/file/d/1FRpRbwKpg6Vr5UzU3Zk1rmK5Ji1zuGsV/view?usp=drive_link",
   },
   {
     title: "Python Mega Course",
@@ -318,6 +320,7 @@ const extracurricular = [
     iconBg: "#000000",
     date: "Completed",
     points: ["Python programming fundamentals and practical problem-solving."],
+    certificate_link: "https://drive.google.com/file/d/1eL4AnCaiqu9G-tDNTBGhY0ege6EzDQrY/view?usp=drive_link",
   },
   {
     title: "Android Programming with Java",
@@ -326,6 +329,7 @@ const extracurricular = [
     iconBg: "#748C7B",
     date: "Completed",
     points: ["Core Android application development with Java."],
+    certificate_link: "https://drive.google.com/file/d/1RKXGEmSCfz--WoOudQU5rl0o4SRnV5GR/view?usp=drive_link",
   },
 ];
 

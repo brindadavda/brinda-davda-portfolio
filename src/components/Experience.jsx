@@ -30,9 +30,9 @@ const ExperienceCard = React.memo(({ experience, isActive, onClick, index }) => 
           className="w-full h-full object-cover"
         />
       </div>
-      <div>
-        <h3 className="text-white-100 text-[18px] font-bold">{experience.title}</h3>
-        <p className="text-secondary text-[14px]">{experience.company_name}</p>
+      <div className="flex-1 min-w-0">
+        <h3 className="text-white-100 text-[18px] font-bold break-words leading-tight mb-1">{experience.title}</h3>
+        <p className="text-secondary text-[14px] break-words leading-snug">{experience.company_name}</p>
       </div>
     </motion.div>
   );
@@ -130,7 +130,7 @@ const Experience = () => {
             <button
               key={`experience-tab-${index}`}
               onClick={() => handleExperienceClick(index)}
-              className={`flex-1 min-w-[120px] text-center py-2 px-2 font-bold text-[15px] transition-all duration-300 relative ${
+              className={`flex-shrink-0 whitespace-nowrap min-w-max text-center py-2 px-4 font-bold text-[15px] transition-all duration-300 relative ${
                 index === activeExperience ? "text-white-100" : "text-secondary"
               }`}
             >

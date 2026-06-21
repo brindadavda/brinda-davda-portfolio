@@ -12,7 +12,7 @@ import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 
-const CertificationCard = ({ title, icon, type, date, points }) => (
+const CertificationCard = ({ title, icon, type, date, points, certificate_link }) => (
   <Tilt
     options={{
       max: 15,
@@ -33,7 +33,7 @@ const CertificationCard = ({ title, icon, type, date, points }) => (
         <h3 className="text-white-100 font-bold text-[20px] mb-2 no-select">{title}</h3>
         <p className="text-secondary text-[12px] mb-1 no-select">{type}</p>
         <p className="text-secondary text-[12px] mb-3 no-select">{date}</p>
-        <ul className="list-disc ml-5 space-y-1">
+        <ul className="list-disc ml-5 space-y-1 mb-4">
           {points.slice(0, 2).map((point, index) => (
             <li
               key={`certification-point-${index}`}
@@ -43,6 +43,14 @@ const CertificationCard = ({ title, icon, type, date, points }) => (
             </li>
           ))}
         </ul>
+        {certificate_link && (
+          <button
+            onClick={() => window.open(certificate_link, "_blank")}
+            className="w-full py-2 px-4 bg-gradient-to-r from-[var(--accent-2)] to-[var(--accent-1)] hover:from-[var(--accent-1)] hover:to-[var(--accent-2)] text-white font-bold rounded-lg text-[13px] shadow-[0_4px_14px_rgba(0,0,0,0.25)] transition-all duration-300 hover:shadow-[0_6px_20px_rgba(0,0,0,0.3)] hover:-translate-y-[1px]"
+          >
+            View Certificate
+          </button>
+        )}
       </div>
     </div>
   </Tilt>
