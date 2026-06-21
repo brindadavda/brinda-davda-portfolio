@@ -27,7 +27,7 @@
 
 An immersive, performant 3D portfolio powered by React, react-three-fiber (Three.js), Framer Motion, and Tailwind CSS — featuring custom 3D parallax effects, volumetric card tilts, magnetic proximity buttons, and a serverless Google Sheets integration.
 
-<p align="center"><strong><a href="https://react-and-three-js-portfolio.vercel.app/">Live Demo → react-and-three-js-portfolio.vercel.app</a></strong></p>
+<p align="center"><strong><a href="https://brinda-davda-portfolio.vercel.app/">Live Demo → brinda-davda-portfolio.vercel.app/</a></strong></p>
 
 <details>
 	<summary><b>Table of Contents</b></summary>
